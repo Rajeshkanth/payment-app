@@ -1,8 +1,41 @@
 import React, { memo, useContext } from "react";
-import { store } from "../../../paymentform/src/App";
+import { useNavigate } from "react-router-dom";
+import { paymentStore } from "../App";
 
 function Alert() {
-  const { accHolder, accNum, amount, cancel, confirm } = useContext(store);
+  const {
+    accHolder,
+    accNum,
+    amount,
+    socket,
+    alertValue,
+    setAccNum,
+    setAccHolder,
+    setAmount,
+  } = useContext(paymentStore);
+  const navigate = useNavigate();
+
+  const confirm = (e) => {
+    e.preventDefault();
+    if (alertValue.length > 0) {
+      console.log("done");
+      socket.emit("clicked", { clicked: true });
+      navigate("/paid");
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
+    }
+    setAccNum("");
+    setAccHolder("");
+    setAmount("");
+  };
+
+  const cancel = () => {
+    socket.emit("canceled", { cancel: true });
+    setAccNum("");
+    setAccHolder("");
+    setAmount("");
+  };
   return (
     <>
       <div className="form-container">
