@@ -1,4 +1,5 @@
-import React, { useNavigate, useState, useffect, memo } from "react";
+import React, { useState, useffect, memo } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Paid() {
   const navigate = useNavigate();
