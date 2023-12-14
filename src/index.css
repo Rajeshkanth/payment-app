@@ -77,6 +77,9 @@ code {
     border: 1px solid;
     border-bottom: 2px solid;
   }
+  .form label {
+    text-align: left;
+  }
   .form #accHolder {
     width: 90%;
   }
