@@ -35,7 +35,12 @@ function Alert() {
     setAccNum("");
     setAccHolder("");
     setAmount("");
+    navigate("/failed");
+    setTimeout(() => {
+      navigate("/");
+    }, 3000);
   };
+
   return (
     <>
       <div className="form-container">
@@ -77,5 +82,4 @@ function Alert() {
     </>
   );
 }
-
 export default memo(Alert);

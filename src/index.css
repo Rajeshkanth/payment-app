@@ -136,6 +136,11 @@ code {
   }
 }
 
+.fail-icon {
+  font-size: 44px;
+  color: #ea2813;
+}
+
 @media all and (max-width: 600px) {
   .form {
     width: 70vw;

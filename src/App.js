@@ -9,6 +9,7 @@ import {
 import "./App.css";
 import Alert from "./components/Alert";
 import Paid from "./components/Paid";
+import Failed from "./components/Failed";
 const socket = io.connect("https://payment-server-461p.onrender.com");
 // const socket = io.connect("http://localhost:3004");
 
@@ -49,6 +50,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Alert />}></Route>
           <Route path="/paid" element={<Paid />}></Route>
+          <Route path="/failed" element={<Failed />}></Route>
         </Routes>
       </Router>
     </paymentStore.Provider>
