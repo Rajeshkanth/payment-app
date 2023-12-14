@@ -1,8 +1,13 @@
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
+import Alert from "./components/Alert";
+import Paid from "./components/Paid";
 const socket = io.connect("https://payment-server-461p.onrender.com");
 // const socket = io.connect("http://localhost:3004");
+
+const store = createContext();
 
 function App() {
   const [alertValue, setAlertValue] = useState([]);
@@ -25,10 +30,10 @@ function App() {
   };
 
   const cancel = () => {
-    if (alertValue.length > 0) {
-      return setIsCancel(!isCancel);
-    }
-    setIsCancel(false);
+    socket.emit("canceled", { cancel: true });
+    setAccNum("");
+    setAccHolder("");
+    setAmount("");
   };
 
   useEffect(() => {
@@ -42,55 +47,15 @@ function App() {
     console.log(alertValue);
   }, [accNum, accHolder, amount]);
 
-  useEffect(() => {
-    console.log("clicked");
-
-    socket.on("success", (data) => {
-      if (data.success) {
-        console.log("done");
-      }
-    });
-  }, [isConfirm]);
-
   return (
-    <>
-      <div className="form-container">
-        <form className="form">
-          <div className="inp-container">
-            <input
-              id="accNum"
-              type="text"
-              value={`Account Number : ${accNum}`}
-              readOnly
-            />
-
-            <input
-              id="amount"
-              type="text"
-              value={`Amount : ${amount}`}
-              readOnly
-            />
-          </div>
-          <div>
-            <input
-              id="accHolder"
-              type="text"
-              value={`Holder Name : ${accHolder}`}
-              readOnly
-            />
-          </div>
-          <div className="btns">
-            <input
-              type="button"
-              value="Confirm"
-              id="confirm"
-              onClick={confirm}
-            />
-            <input type="button" value="Cancel" id="cancel" onClick={cancel} />
-          </div>
-        </form>
-      </div>
-    </>
+    <store.Provider value={{ accNum, accHolder, amount, confirm, cancel }}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Alert />}></Route>
+          <Route path="/paid" element={<Paid />}></Route>
+        </Routes>
+      </Router>
+    </store.Provider>
   );
 }
 
