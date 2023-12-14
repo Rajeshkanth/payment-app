@@ -1,6 +1,8 @@
-import React, { memo } from "react";
+import React, { memo, useContext } from "react";
+import { store } from "../../../paymentform/src/App";
 
 function Alert() {
+  const { accHolder, accNum, amount, cancel, confirm } = useContext(store);
   return (
     <>
       <div className="form-container">
