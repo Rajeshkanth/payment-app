@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/rajeshkanth.github.io/payment-app/static/css/main.9c5e5a74.css",
-    "main.js": "/rajeshkanth.github.io/payment-app/static/js/main.7d8af4b8.js",
-    "index.html": "/rajeshkanth.github.io/payment-app/index.html",
-    "main.9c5e5a74.css.map": "/rajeshkanth.github.io/payment-app/static/css/main.9c5e5a74.css.map",
-    "main.7d8af4b8.js.map": "/rajeshkanth.github.io/payment-app/static/js/main.7d8af4b8.js.map"
+    "main.css": "/payment-app/static/css/main.9c5e5a74.css",
+    "main.js": "/payment-app/static/js/main.7d8af4b8.js",
+    "index.html": "/payment-app/index.html",
+    "main.9c5e5a74.css.map": "/payment-app/static/css/main.9c5e5a74.css.map",
+    "main.7d8af4b8.js.map": "/payment-app/static/js/main.7d8af4b8.js.map"
   },
   "entrypoints": [
     "static/css/main.9c5e5a74.css",
