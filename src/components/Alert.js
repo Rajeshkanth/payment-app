@@ -1,26 +1,26 @@
-import React, { memo, useContext } from "react";
+import React, { memo, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { paymentStore } from "../App";
 
 function Alert() {
   const {
-    accHolder,
-    accNum,
-    amount,
     socket,
     alertValue,
     setAlertValue,
     setAccNum,
     setAccHolder,
     setAmount,
+    uniqueId,
   } = useContext(paymentStore);
+
   const navigate = useNavigate();
+  console.log(uniqueId);
 
   const confirm = (e, index) => {
     e.preventDefault();
     if (alertValue.length > 0) {
       console.log("done");
-      socket.emit("clicked", { clicked: true });
+      socket.emit("clicked", { clicked: true, UniqueId: uniqueId });
       navigate("/paid");
       setTimeout(() => {
         navigate("/");
@@ -48,6 +48,8 @@ function Alert() {
     updatedAlerts.splice(index, 1);
     setAlertValue(updatedAlerts);
   };
+
+  useEffect(() => {}, []);
 
   return (
     <>

@@ -13,9 +13,9 @@ import Failed from "./components/Failed";
 const socket = io.connect("https://payment-server-461p.onrender.com", {
   query: {
     source: Math.random() * 100,
+    from: "confirm page",
   },
 });
-// const socket = io.connect("http://localhost:3004");
 
 export const paymentStore = createContext();
 
@@ -25,17 +25,18 @@ function App() {
   const [accNum, setAccNum] = useState("");
   const [accHolder, setAccHolder] = useState("");
   const [amount, setAmount] = useState("");
+  const [uniqueId, setUniqueId] = useState(0);
 
   useEffect(() => {
     socket.on("paymentConfirmAlert", (data) => {
-      setAlertValue((prev) => [...prev, data.receivedValu]);
-
-      setAccNum(data.receivedValu.AccNum);
-      setAccHolder(data.receivedValu.AccHolder);
-      setAmount(data.receivedValu.Amount);
+      setAlertValue((prev) => [...prev, data.receivedValue]);
+      setUniqueId(data.UniqueId);
+      setAccNum(data.receivedValue.AccNum);
+      setAccHolder(data.receivedValue.AccHolder);
+      setAmount(data.receivedValue.Amount);
     });
-  }, []);
-  console.log(alertValue);
+  }, [socket]);
+  console.log(alertValue, uniqueId);
   return (
     <paymentStore.Provider
       value={{
@@ -48,6 +49,7 @@ function App() {
         setAccNum,
         setAccHolder,
         setAmount,
+        uniqueId,
       }}
     >
       <Router>
