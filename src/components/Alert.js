@@ -9,13 +9,14 @@ function Alert() {
     amount,
     socket,
     alertValue,
+    setAlertValue,
     setAccNum,
     setAccHolder,
     setAmount,
   } = useContext(paymentStore);
   const navigate = useNavigate();
 
-  const confirm = (e) => {
+  const confirm = (e, index) => {
     e.preventDefault();
     if (alertValue.length > 0) {
       console.log("done");
@@ -25,59 +26,70 @@ function Alert() {
         navigate("/");
       }, 3000);
     }
-    setAccNum("");
-    setAccHolder("");
-    setAmount("");
+    handleReset(index);
   };
 
-  const cancel = () => {
+  const cancel = (index) => {
     socket.emit("canceled", { cancel: true });
-    setAccNum("");
-    setAccHolder("");
-    setAmount("");
+    handleReset(index);
     navigate("/failed");
     setTimeout(() => {
       navigate("/");
     }, 3000);
   };
 
+  const handleReset = (index) => {
+    setAccNum("");
+    setAccHolder("");
+    setAmount("");
+
+    // Remove the specific alert value from the list after action (confirm/cancel)
+    const updatedAlerts = [...alertValue];
+    updatedAlerts.splice(index, 1);
+    setAlertValue(updatedAlerts);
+  };
+
   return (
     <>
       <div className="form-container">
-        <form className="form">
-          <div className="inp-container">
-            <input
-              id="accNum"
-              type="text"
-              value={`Account Number : ${accNum}`}
-              readOnly
-            />
-
-            <input
-              id="amount"
-              type="text"
-              value={`Amount : ${amount}`}
-              readOnly
-            />
-          </div>
-          <div>
-            <input
-              id="accHolder"
-              type="text"
-              value={`Holder Name : ${accHolder}`}
-              readOnly
-            />
-          </div>
-          <div className="btns">
-            <input
-              type="button"
-              value="Confirm"
-              id="confirm"
-              onClick={confirm}
-            />
-            <input type="button" value="Cancel" id="cancel" onClick={cancel} />
-          </div>
-        </form>
+        {alertValue.map((alert, index) => (
+          <form key={index} className="form">
+            <div className="inp-container">
+              <input
+                id={`accNum-${index}`}
+                type="text"
+                value={`Account Number : ${alert.AccNum}`}
+                readOnly
+              />
+              <input
+                id={`amount-${index}`}
+                type="text"
+                value={`Amount : ${alert.Amount}`}
+                readOnly
+              />
+            </div>
+            <div>
+              <input
+                id={`accHolder-${index}`}
+                type="text"
+                value={`Holder Name : ${alert.AccHolder}`}
+                readOnly
+              />
+            </div>
+            <div className="btns">
+              <input
+                type="button"
+                value="Confirm"
+                onClick={(e) => confirm(e, index)}
+              />
+              <input
+                type="button"
+                value="Cancel"
+                onClick={() => cancel(index)}
+              />
+            </div>
+          </form>
+        ))}
       </div>
     </>
   );

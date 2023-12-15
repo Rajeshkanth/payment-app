@@ -25,14 +25,13 @@ function App() {
   useEffect(() => {
     socket.on("paymentConfirmAlert", (data) => {
       setAlertValue((prev) => [...prev, data.receivedValu]);
+
       setAccNum(data.receivedValu.AccNum);
       setAccHolder(data.receivedValu.AccHolder);
       setAmount(data.receivedValu.Amount);
     });
-
-    console.log(alertValue);
-  }, [accNum, accHolder, amount]);
-
+  }, []);
+  console.log(alertValue);
   return (
     <paymentStore.Provider
       value={{
@@ -41,6 +40,7 @@ function App() {
         amount,
         socket,
         alertValue,
+        setAlertValue,
         setAccNum,
         setAccHolder,
         setAmount,
