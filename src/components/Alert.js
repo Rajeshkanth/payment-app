@@ -16,11 +16,36 @@ function Alert() {
   const navigate = useNavigate();
   console.log(uniqueId);
 
+  // const confirm = (e, index) => {
+  //   e.preventDefault();
+  //   if (alertValue.length > 0) {
+  //     console.log("done");
+  //     socket.emit("clicked", { clicked: true, UniqueId: uniqueId });
+  //     navigate("/paid");
+  //     setTimeout(() => {
+  //       navigate("/");
+  //     }, 3000);
+  //   }
+  //   handleReset(index);
+  // };
+
+  // const cancel = (index) => {
+  //   socket.emit("canceled", { cancel: true });
+  //   handleReset(index);
+  //   navigate("/failed");
+  //   setTimeout(() => {
+  //     navigate("/");
+  //   }, 3000);
+  // };
+  // ... (existing code remains the same)
+
   const confirm = (e, index) => {
     e.preventDefault();
     if (alertValue.length > 0) {
-      console.log("done");
-      socket.emit("clicked", { clicked: true, UniqueId: uniqueId });
+      socket.emit("clicked", {
+        clicked: true,
+        tabId: sessionStorage.getItem("tabId"),
+      });
       navigate("/paid");
       setTimeout(() => {
         navigate("/");
@@ -38,6 +63,10 @@ function Alert() {
     }, 3000);
   };
 
+  useEffect(() => {}, []);
+
+  // ... (rest of the existing code)
+
   const handleReset = (index) => {
     setAccNum("");
     setAccHolder("");
@@ -49,7 +78,7 @@ function Alert() {
     setAlertValue(updatedAlerts);
   };
 
-  useEffect(() => {}, []);
+  // useEffect(() => {}, []);
 
   return (
     <>
