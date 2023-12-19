@@ -10,14 +10,9 @@ import "./App.css";
 import Alert from "./components/Alert";
 import Paid from "./components/Paid";
 import Failed from "./components/Failed";
-// const socket = io.connect("https://payment-server-461p.onrender.com", {
-// query: {
-//   source: Math.random() * 100,
-//   from: "confirm page",
-// },
-// });
+const socket = io.connect("https://payment-server-461p.onrender.com");
 
-const socket = io.connect("http://localhost:3009");
+// const socket = io.connect("http://localhost:3009");
 
 export const paymentStore = createContext();
 
