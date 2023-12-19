@@ -22,7 +22,7 @@ function Alert() {
     if (alertValue.length > 0) {
       socket.emit("clicked", {
         clicked: true,
-        tabId: tabId, // Include the tabId
+        tabId: tabId,
         SocketRoom: socketRoom,
       });
       navigate("/paid");
@@ -33,8 +33,13 @@ function Alert() {
     handleReset(index);
   };
 
-  const cancel = (index) => {
-    socket.emit("canceled", { cancel: true });
+  const cancel = (e, index, tabId) => {
+    e.preventDefault();
+    socket.emit("canceled", {
+      cancel: true,
+      tabId: tabId,
+      SocketRoom: socketRoom,
+    });
     handleReset(index);
     navigate("/failed");
     setTimeout(() => {
@@ -58,6 +63,7 @@ function Alert() {
   return (
     <>
       <div className="form-container">
+        <h1>Payment Notifications</h1>
         {alertValue.map((alert, index) => (
           <form key={index} className="form">
             <div className="inp-container">
@@ -73,8 +79,6 @@ function Alert() {
                 value={`Amount : ${alert.Amount}`}
                 readOnly
               />
-            </div>
-            <div>
               <input
                 id={`accHolder-${index}`}
                 type="text"
@@ -82,6 +86,7 @@ function Alert() {
                 readOnly
               />
             </div>
+
             <div className="btns">
               {/* <input
                 type="button"
@@ -91,13 +96,15 @@ function Alert() {
               <input
                 type="button"
                 value="Confirm"
+                id="confirm"
                 onClick={(e) => confirm(e, index, alert.tabId)} // Pass tabId to confirm
               />
 
               <input
                 type="button"
                 value="Cancel"
-                onClick={() => cancel(index)}
+                id="cancel"
+                onClick={(e) => cancel(e, index, alert.tabId)}
               />
             </div>
           </form>
