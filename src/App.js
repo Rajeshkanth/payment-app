@@ -10,14 +10,14 @@ import "./App.css";
 import Alert from "./components/Alert";
 import Paid from "./components/Paid";
 import Failed from "./components/Failed";
-const socket = io.connect("https://payment-server-461p.onrender.com", {
-  // query: {
-  //   source: Math.random() * 100,
-  //   from: "confirm page",
-  // },
-});
+// const socket = io.connect("https://payment-server-461p.onrender.com", {
+// query: {
+//   source: Math.random() * 100,
+//   from: "confirm page",
+// },
+// });
 
-// const socket = io.connect("http://localhost:3004");
+const socket = io.connect("http://localhost:3009");
 
 export const paymentStore = createContext();
 
@@ -28,23 +28,13 @@ function App() {
   const [accHolder, setAccHolder] = useState("");
   const [amount, setAmount] = useState("");
   const [uniqueId, setUniqueId] = useState(0);
-
-  // useEffect(() => {
-  //   socket.on("paymentConfirmAlert", (data) => {
-  //     setAlertValue((prev) => [...prev, data.receivedValue]);
-  //     setUniqueId(data.UniqueId);
-  //     setAccNum(data.receivedValue.AccNum);
-  //     setAccHolder(data.receivedValue.AccHolder);
-  //     setAmount(data.receivedValue.Amount);
-  //   });
-  // }, [socket]);
-
-  // ... (existing code remains the same)
+  const [socketRoom, setSocketRoom] = useState("");
 
   useEffect(() => {
     socket.on("paymentConfirmAlert", (data) => {
       setAlertValue((prev) => [...prev, data.receivedValue]);
       setUniqueId(data.UniqueId); // Use UniqueId
+      setSocketRoom(data.socketRoom);
       setAccNum(data.receivedValue.AccNum);
       setAccHolder(data.receivedValue.AccHolder);
       setAmount(data.receivedValue.Amount);
@@ -68,6 +58,7 @@ function App() {
         setAccHolder,
         setAmount,
         uniqueId,
+        socketRoom,
       }}
     >
       <Router>

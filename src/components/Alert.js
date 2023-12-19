@@ -11,40 +11,19 @@ function Alert() {
     setAccHolder,
     setAmount,
     uniqueId,
+    socketRoom,
   } = useContext(paymentStore);
 
   const navigate = useNavigate();
   console.log(uniqueId);
 
-  // const confirm = (e, index) => {
-  //   e.preventDefault();
-  //   if (alertValue.length > 0) {
-  //     console.log("done");
-  //     socket.emit("clicked", { clicked: true, UniqueId: uniqueId });
-  //     navigate("/paid");
-  //     setTimeout(() => {
-  //       navigate("/");
-  //     }, 3000);
-  //   }
-  //   handleReset(index);
-  // };
-
-  // const cancel = (index) => {
-  //   socket.emit("canceled", { cancel: true });
-  //   handleReset(index);
-  //   navigate("/failed");
-  //   setTimeout(() => {
-  //     navigate("/");
-  //   }, 3000);
-  // };
-  // ... (existing code remains the same)
-
-  const confirm = (e, index) => {
+  const confirm = (e, index, tabId) => {
     e.preventDefault();
     if (alertValue.length > 0) {
       socket.emit("clicked", {
         clicked: true,
-        tabId: sessionStorage.getItem("tabId"),
+        tabId: tabId, // Include the tabId
+        SocketRoom: socketRoom,
       });
       navigate("/paid");
       setTimeout(() => {
@@ -65,8 +44,6 @@ function Alert() {
 
   useEffect(() => {}, []);
 
-  // ... (rest of the existing code)
-
   const handleReset = (index) => {
     setAccNum("");
     setAccHolder("");
@@ -77,8 +54,6 @@ function Alert() {
     updatedAlerts.splice(index, 1);
     setAlertValue(updatedAlerts);
   };
-
-  // useEffect(() => {}, []);
 
   return (
     <>
@@ -108,11 +83,17 @@ function Alert() {
               />
             </div>
             <div className="btns">
-              <input
+              {/* <input
                 type="button"
                 value="Confirm"
                 onClick={(e) => confirm(e, index)}
+              /> */}
+              <input
+                type="button"
+                value="Confirm"
+                onClick={(e) => confirm(e, index, alert.tabId)} // Pass tabId to confirm
               />
+
               <input
                 type="button"
                 value="Cancel"
