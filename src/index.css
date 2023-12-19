@@ -18,6 +18,8 @@ code {
   padding: 1px;
   height: auto;
   margin-left: 10rem;
+  margin-top: 10vh;
+  position: fixed;
 }
 .form {
   background-color: #ffffff;
@@ -188,6 +190,17 @@ code {
 .fail-icon {
   font-size: 44px;
   color: #ea2813;
+}
+
+.header {
+  height: 8vh;
+  position: fixed;
+  width: 100vw;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  background-color: #c2baba;
+  padding-left: 4rem;
 }
 
 @media all and (max-width: 600px) {

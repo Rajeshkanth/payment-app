@@ -62,8 +62,10 @@ function Alert() {
 
   return (
     <>
-      <div className="form-container">
+      <div className="header">
         <h1>Payment Notifications</h1>
+      </div>
+      <div className="form-container">
         {alertValue.map((alert, index) => (
           <form key={index} className="form">
             <div className="inp-container">
