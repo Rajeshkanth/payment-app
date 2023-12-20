@@ -60,6 +60,25 @@ function Alert() {
     setAlertValue(updatedAlerts);
   };
 
+  useEffect(() => {
+    // Event listener to receive messages from Repository 1
+    window.addEventListener("message", (event) => {
+      // Check the sender's domain
+      if (event.origin === "https://rajeshkanth.github.io/paymentpage") {
+        // Process the received data
+        const receivedData = event.data;
+        console.log(
+          "Received message from Repository 1:",
+          receivedData.message
+        );
+
+        // You can send a response back to Repository 1 if needed
+        const response = { received: true };
+        event.source.postMessage(response, event.origin);
+      }
+    });
+  }, []);
+
   return (
     <>
       <div className="header">

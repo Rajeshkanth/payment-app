@@ -1,11 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
-import {
-  HashRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
-} from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Alert from "./components/Alert";
 import Paid from "./components/Paid";
@@ -37,7 +32,19 @@ function App() {
     });
   }, [socket]);
 
-  // ... (rest of the existing code)
+  // Event listener to receive messages from Repository 1
+  window.addEventListener("message", (event) => {
+    // Check the sender's domain
+    if (event.origin === "https://rajeshkanth.github.io/paymentpage") {
+      // Process the received data
+      const receivedData = event.data;
+      console.log("Received message from Repository 1:", receivedData.message);
+
+      // You can send a response back to Repository 1 if needed
+      const response = { received: true };
+      event.source.postMessage(response, event.origin);
+    }
+  });
 
   console.log(alertValue, uniqueId);
   return (
