@@ -200,7 +200,7 @@ code {
   display: flex;
   align-items: center;
   background-color: #c2baba;
-  padding-left: 4rem;
+  padding-left: 2rem;
 }
 
 @media all and (max-width: 600px) {
