@@ -10,7 +10,7 @@ This project showcases a payment page application using React and socket.io for 
 
 ## Usage
 
-- Access the payment page.
+- Access the payment page -- "https://rajeshkanth.github.io/payment-app/" in your mobile browser.
 - Confirm or cancel payments.
 
 ## Technologies Used
