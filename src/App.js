@@ -1,11 +1,12 @@
 import { createContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import axios from "axios";
 import "./App.css";
 import Alert from "./components/Alert";
 import Paid from "./components/Paid";
 import Failed from "./components/Failed";
-const socket = io.connect("https://payment-server-461p.onrender.com");
+const socket = io.connect("https://polling-server.onrender.com/socket");
 
 // const socket = io.connect("http://localhost:3009");
 
@@ -23,30 +24,39 @@ function App() {
   useEffect(() => {
     socket.on("paymentConfirmAlert", (data) => {
       setAlertValue((prev) => [...prev, data.receivedValue]);
-      setUniqueId(data.UniqueId); // Use UniqueId
+      setUniqueId(data.UniqueId);
       setSocketRoom(data.socketRoom);
       setAccNum(data.receivedValue.AccNum);
       setAccHolder(data.receivedValue.AccHolder);
       setAmount(data.receivedValue.Amount);
-      sessionStorage.setItem("tabId", data.tabId); // Store tabId in sessionStorage
+      sessionStorage.setItem("tabId", data.tabId);
     });
   }, [socket]);
 
-  // Event listener to receive messages from Repository 1
-  window.addEventListener("message", (event) => {
-    // Check the sender's domain
-    if (event.origin === "https://rajeshkanth.github.io/paymentpage") {
-      // Process the received data
-      const receivedData = event.data;
-      console.log("Received message from Repository 1:", receivedData.message);
-
-      // You can send a response back to Repository 1 if needed
-      const response = { received: true };
-      event.source.postMessage(response, event.origin);
-    }
-  });
-
   console.log(alertValue, uniqueId);
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/toAlertpage");
+
+        if (response.status === 200) {
+          console.log("received");
+          const { data } = response.data;
+          setAlertValue((prev) => [...prev, data]);
+          setAccNum(data.AccNum);
+          setAccHolder(data.AccHolder);
+          setAmount(data.Amount);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [alertValue]);
   return (
     <paymentStore.Provider
       value={{

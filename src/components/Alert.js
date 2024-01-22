@@ -1,5 +1,6 @@
 import React, { memo, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { paymentStore } from "../App";
 
 function Alert() {
@@ -47,6 +48,20 @@ function Alert() {
     }, 3000);
   };
 
+  const confirmByPolling = async (e, tabId, index) => {
+    e.preventDefault();
+    const response = await axios.post("http://localhost:8080/confirmed", {
+      isConfirm: true,
+    });
+    handleReset(index);
+    if (response.status === 200) {
+      navigate("/paid");
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
+    }
+  };
+
   const handleReset = (index) => {
     setAccNum("");
     setAccHolder("");
@@ -57,6 +72,8 @@ function Alert() {
     updatedAlerts.splice(index, 1);
     setAlertValue(updatedAlerts);
   };
+
+  useEffect(() => {}, []);
 
   return (
     <>
@@ -105,6 +122,13 @@ function Alert() {
                 value="Cancel"
                 id="cancel"
                 onClick={(e) => cancel(e, index, alert.tabId)}
+              />
+
+              <input
+                type="button"
+                value="Confirm By Polling"
+                id="confirm"
+                onClick={(e) => confirmByPolling(e, index, alert.tabId)} // Pass tabId to confirm
               />
             </div>
           </form>

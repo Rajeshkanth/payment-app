@@ -17,9 +17,9 @@ code {
   background-color: #fff;
   padding: 1px;
   height: auto;
+
   margin-left: 10rem;
   margin-top: 10vh;
-  position: fixed;
 }
 .form {
   background-color: #ffffff;
@@ -201,6 +201,7 @@ code {
   align-items: center;
   background-color: #c2baba;
   padding-left: 2rem;
+  top: 0;
 }
 
 @media all and (max-width: 600px) {
@@ -208,7 +209,8 @@ code {
     margin-left: 2rem;
   }
   .form {
-    width: 60vw;
+    /* width: 60vw; */
+    width: auto;
     height: auto;
   }
   .form input {
